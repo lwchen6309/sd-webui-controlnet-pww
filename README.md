@@ -28,7 +28,6 @@ to make ControlNet+PwW compatible with the ControlNet extension while make ui a 
 ![screencapture-1cc398fb-f325-421d-gradio-live-2023-03-19-21_57_13](https://user-images.githubusercontent.com/42672685/226182437-dc58f182-a16e-4e20-a6d8-b997695014c4.png)
 where the 1st one is the panel of ControlNet extension from Mikubill; the 2nd one is the original ControlNet ui in ControlNet+PwW repo, which is not utilized and should be hidden by line 845 of scripts/controlnet.py. Please simply neglect it; the 3rd one is the ui that ControlNet+PwW use for ControlNet. Please use it for application of ControlNet+PwW
 
-Test
 
 ## Preparing color content
 
