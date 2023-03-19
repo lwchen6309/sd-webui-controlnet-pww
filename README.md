@@ -21,7 +21,7 @@ if it is successfully installed.
 ### (2) Setup pretrained model of ControlNet
 Please follow the instruction of [controlnet extension](https://github.com/Mikubill/sd-webui-controlnet) to get the pretrained models. 
 
-IMPORTANT: This extension is currently NOT compatible with [ControlNet extension](https://github.com/Mikubill/sd-webui-controlnet) as reported at [this issue](https://github.com/cloneofsimo/paint-with-words-sd/issues/38). Hence, please disable the ControlNet extension before you start A1111 ui. This issue will be fixed ASAP.
+#### IMPORTANT: This extension is currently NOT compatible with [ControlNet extension](https://github.com/Mikubill/sd-webui-controlnet) as reported at [this issue](https://github.com/cloneofsimo/paint-with-words-sd/issues/38). Hence, please disable the ControlNet extension before you start A1111 ui. This issue will be fixed ASAP.
 
 ## Preparing color content
 
@@ -63,6 +63,7 @@ Color contents:
 
 ## Assign the material for the specific region in scribble
 
+### Turtle example
 One can use PwW to assign the material upon scribble, see the results comparing ControlNet and ControlNet+PwW below.
 
 <!-- #region -->
@@ -101,6 +102,41 @@ Color contents:
 > "{(255, 255, 255):",0.5,-1",(89, 102, 255):"cake,2.0,-1",(61, 163, 35):"turtle,1.5,-1",(51, 193, 217):"chocolate,1.0,-1"}"
 
 with random seed: 0, and weight function scale: 0.3
+
+### Hot air balloon example
+
+<!-- #region -->
+<p align="center">
+<img  src="demo_img/cn_pww_ballon.jpg">
+</p>
+<!-- #endregion -->
+
+The setups are detailed as follows:
+
+Scribble and Segmentation map:
+
+<p float="middle">
+  <img src="demo_img/user_3.png" width="200" />
+  <img src="demo_img/seg_map3.png" width="200" /> 
+</p>
+
+Note that there are additional prompt: "its texture and grain need to be particularly emphasized." for these examples. Making the full prompts and color content shown as follows for the 3 cases respectively.
+
+Prompts:
+
+> "hot air balloon made of chocolate and cake."
+
+> "hot air balloon made of beechwood and wool."
+
+> "hot air balloon made of beechwood and fur."
+
+Color contents: 
+
+>"{(255, 255, 255):",0.5,-1",(89, 102, 255):"chocolate,2.0,-1",(61, 163, 35):"hot air balloon,0.5,-1",(51, 193, 217):"cake,1.5,-1"}"
+
+> "{(255, 255, 255):",0.5,-1",(89, 102, 255):"beechwood,2.0,-1",(61, 163, 35):"hot air balloon,0.5,-1",(51, 193, 217):"wool,1.5,-1"}"
+
+> "{(255, 255, 255):",0.5,-1",(89, 102, 255):"fur,2.0,-1",(61, 163, 35):"hot air balloon,0.5,-1",(51, 193, 217):"beechwood,1.5,-1"}"
 
 ### Raising issue 
 
