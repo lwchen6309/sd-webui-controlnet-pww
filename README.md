@@ -100,9 +100,6 @@ Color contents:
 
 with random seed: 0, and weight function scale: 0.3
 
-### Raising issue
-Please raise issue [here](https://github.com/cloneofsimo/paint-with-words-sd) if you encounter any problem.
-
 ---
 
 ## sd-webui-controlnet
