@@ -841,4 +841,5 @@ class Img2ImgTabTracker:
 
 img2img_tab_tracker = Img2ImgTabTracker()
 script_callbacks.on_ui_settings(on_ui_settings)
+# Comment this if ControlNet extension is enable
 script_callbacks.on_after_component(img2img_tab_tracker.on_after_component_callback)
