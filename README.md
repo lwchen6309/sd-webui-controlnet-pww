@@ -21,6 +21,8 @@ if it is successfully installed.
 ### (2) Setup pretrained model of ControlNet
 Please follow the instruction of [controlnet extension](https://github.com/Mikubill/sd-webui-controlnet) to get the pretrained models. 
 
+IMPORTANT: This extension is currently NOT compatible with [ControlNet extension](https://github.com/Mikubill/sd-webui-controlnet) as reported at [this issue](https://github.com/cloneofsimo/paint-with-words-sd/issues/38). Hence, please disable the ControlNet extension before you start A1111 ui. This issue will be fixed ASAP.
+
 ## Preparing color content
 
 Similar to the ui of PwW, one can prepare the color content by first clicking "Extract color content" then "Generate olor content"
