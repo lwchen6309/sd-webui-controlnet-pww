@@ -463,7 +463,7 @@ class Script(scripts.Script):
         segmentation_input_image = gr.Image(source='upload', type='numpy', tool='color-sketch', interactive=True)
         
         color_context = gr.Textbox(label="Color context", value='', interactive=True)
-        weight_function = gr.Textbox(label="Weight function scale", value='0.2', interactive=True)
+        weight_function = gr.Textbox(label="Weight function scale ", value='0.2', interactive=True)
         with gr.Row():
             pww_enabled = gr.Checkbox(label='Enable', value=False)
             pww_create_button = gr.Button(value="Create blank canvas")
