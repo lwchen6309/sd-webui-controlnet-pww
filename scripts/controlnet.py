@@ -413,81 +413,81 @@ class Script(scripts.Script):
 
         return unit
 
-    if not dummy_mode:
-        def pww_uigroup(self, is_img2img):
 
-            def create_canvas(h, w):
-                return np.zeros(shape=(h, w, 3), dtype=np.uint8) + 255
+    def pww_uigroup(self, is_img2img):
 
-            def extract_color_textboxes(color_map_image):
-                # Get unique colors in color_map_image
-                w, h = 15, 3
+        def create_canvas(h, w):
+            return np.zeros(shape=(h, w, 3), dtype=np.uint8) + 255
 
-                colors = unique_colors(Image.fromarray(color_map_image))
-                color_blocks = [Image.new("RGB", (w, h), color=color) for color in colors]
-                # Append white blocks to color_blocks to fill up to MAX_NUM_COLORS
-                num_missing_blocks = MAX_NUM_COLORS - len(color_blocks)
-                white_block = Image.new("RGB", (w, h), color=(32, 32, 32))
-                color_blocks += [white_block] * num_missing_blocks
+        def extract_color_textboxes(color_map_image):
+            # Get unique colors in color_map_image
+            w, h = 15, 3
 
-                default_prompt = ["obj" for _ in range(len(colors))] + ["" for _ in range(len(colors), MAX_NUM_COLORS)]
-                default_strength = ["0.5" for _ in range(len(colors))] + ["" for _ in range(len(colors), MAX_NUM_COLORS)]
-                colors.extend([None] * num_missing_blocks)
+            colors = unique_colors(Image.fromarray(color_map_image))
+            color_blocks = [Image.new("RGB", (w, h), color=color) for color in colors]
+            # Append white blocks to color_blocks to fill up to MAX_NUM_COLORS
+            num_missing_blocks = MAX_NUM_COLORS - len(color_blocks)
+            white_block = Image.new("RGB", (w, h), color=(32, 32, 32))
+            color_blocks += [white_block] * num_missing_blocks
 
-                return (*color_blocks, *default_prompt, *default_strength, *colors)
+            default_prompt = ["obj" for _ in range(len(colors))] + ["" for _ in range(len(colors), MAX_NUM_COLORS)]
+            default_strength = ["0.5" for _ in range(len(colors))] + ["" for _ in range(len(colors), MAX_NUM_COLORS)]
+            colors.extend([None] * num_missing_blocks)
 
-            def unique_colors(image, threshold=0.01):
-                colors = image.getcolors(image.size[0] * image.size[1])
-                total_pixels = image.size[0] * image.size[1]
-                unique_colors = []
-                for count, color in colors:
-                    if count / total_pixels > threshold:
-                        unique_colors.append(color)
-                return unique_colors
+            return (*color_blocks, *default_prompt, *default_strength, *colors)
 
-            def collect_color_content(*args):
-                n = len(args)
-                chunk_size = n // 3
-                colors, prompts, strengths = [args[i:i+chunk_size] for i in range(0, n, chunk_size)]
-                content_collection = []
-                for color, prompt, strength in zip(colors, prompts, strengths):
-                    if color is not None:
-                        input_str = '%s:"%s,%s,-1"'%(color, prompt, strength)
-                        content_collection.append(input_str)
-                if len(content_collection) > 0:
-                    return "{%s}"%','.join(content_collection)
-                else:
-                    return ""
+        def unique_colors(image, threshold=0.01):
+            colors = image.getcolors(image.size[0] * image.size[1])
+            total_pixels = image.size[0] * image.size[1]
+            unique_colors = []
+            for count, color in colors:
+                if count / total_pixels > threshold:
+                    unique_colors.append(color)
+            return unique_colors
 
-            canvas_height, canvas_width = (self.img2img_h_slider, self.img2img_w_slider) if is_img2img else (self.txt2img_h_slider, self.txt2img_w_slider)
-            segmentation_input_image = gr.Image(source='upload', type='numpy', tool='color-sketch', interactive=True)
-            
-            color_context = gr.Textbox(label="Color context", value='', interactive=True)
-            weight_function = gr.Textbox(label="Weight function scale ", value='0.2', interactive=True)
-            with gr.Row():
-                pww_enabled = gr.Checkbox(label='Enable', value=False)
-                pww_create_button = gr.Button(value="Create blank canvas")
-                pww_create_button.click(fn=create_canvas, inputs=[canvas_height, canvas_width], outputs=[segmentation_input_image])
-                extract_color_boxes_button = gr.Button(value="Extract color content")
-                generate_color_boxes_button = gr.Button(value="Generate color content")
+        def collect_color_content(*args):
+            n = len(args)
+            chunk_size = n // 3
+            colors, prompts, strengths = [args[i:i+chunk_size] for i in range(0, n, chunk_size)]
+            content_collection = []
+            for color, prompt, strength in zip(colors, prompts, strengths):
+                if color is not None:
+                    input_str = '%s:"%s,%s,-1"'%(color, prompt, strength)
+                    content_collection.append(input_str)
+            if len(content_collection) > 0:
+                return "{%s}"%','.join(content_collection)
+            else:
+                return ""
 
-            with gr.Accordion('Color context option', open=False):
-                prompts = []
-                strengths = []
-                color_maps = []
-                colors = [gr.Textbox(value="", visible=False) for i in range(MAX_NUM_COLORS)]
-                for n in range(MAX_NUM_COLORS):
-                    with gr.Row():
-                        color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
-                        with gr.Column():
-                            prompts.append(gr.Textbox(label="Prompt", interactive=True))
-                        with gr.Column():
-                            strengths.append(gr.Textbox(label="Strength", interactive=True))
+        canvas_height, canvas_width = (self.img2img_h_slider, self.img2img_w_slider) if is_img2img else (self.txt2img_h_slider, self.txt2img_w_slider)
+        segmentation_input_image = gr.Image(source='upload', type='numpy', tool='color-sketch', interactive=True)
+        
+        color_context = gr.Textbox(label="Color context", value='', interactive=True)
+        weight_function = gr.Textbox(label="Weight function scale ", value='0.2', interactive=True)
+        with gr.Row():
+            pww_enabled = gr.Checkbox(label='Enable', value=False)
+            pww_create_button = gr.Button(value="Create blank canvas")
+            pww_create_button.click(fn=create_canvas, inputs=[canvas_height, canvas_width], outputs=[segmentation_input_image])
+            extract_color_boxes_button = gr.Button(value="Extract color content")
+            generate_color_boxes_button = gr.Button(value="Generate color content")
 
-            extract_color_boxes_button.click(fn=extract_color_textboxes, inputs=[segmentation_input_image], outputs=[*color_maps, *prompts, *strengths, *colors])
-            generate_color_boxes_button.click(fn=collect_color_content, inputs=[*colors, *prompts, *strengths], outputs=[color_context])
-            ctrls = (pww_enabled, color_context, weight_function, segmentation_input_image)
-            return ctrls
+        with gr.Accordion('Color context option', open=False):
+            prompts = []
+            strengths = []
+            color_maps = []
+            colors = [gr.Textbox(value="", visible=False) for i in range(MAX_NUM_COLORS)]
+            for n in range(MAX_NUM_COLORS):
+                with gr.Row():
+                    color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
+                    with gr.Column():
+                        prompts.append(gr.Textbox(label="Prompt", interactive=True))
+                    with gr.Column():
+                        strengths.append(gr.Textbox(label="Strength", interactive=True))
+
+        extract_color_boxes_button.click(fn=extract_color_textboxes, inputs=[segmentation_input_image], outputs=[*color_maps, *prompts, *strengths, *colors])
+        generate_color_boxes_button.click(fn=collect_color_content, inputs=[*colors, *prompts, *strengths], outputs=[color_context])
+        ctrls = (pww_enabled, color_context, weight_function, segmentation_input_image)
+        return ctrls
 
 
     def ui(self, is_img2img):
@@ -509,9 +509,8 @@ class Script(scripts.Script):
                 else:
                     with gr.Column():
                         controls += (self.uigroup(f"ControlNet", is_img2img),)
-            if not dummy_mode:
-                with gr.Accordion('PaintWithWord', open=False):
-                    controls += self.pww_uigroup(is_img2img)        
+            with gr.Accordion('PaintWithWord', open=False):
+                controls += self.pww_uigroup(is_img2img)
         for _, field_name in self.infotext_fields:
             self.paste_field_names.append(field_name)
 
