@@ -478,7 +478,8 @@ class Script(scripts.Script):
             colors = [gr.Textbox(value="", visible=False) for i in range(MAX_NUM_COLORS)]
             for n in range(MAX_NUM_COLORS):
                 with gr.Row():
-                    color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
+                    # color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
+                    color_maps.append(gr.Image(interactive=False, type='numpy'))
                     with gr.Column():
                         prompts.append(gr.Textbox(label="Prompt", interactive=True))
                     with gr.Column():
