@@ -471,22 +471,22 @@ class Script(scripts.Script):
             extract_color_boxes_button = gr.Button(value="Extract color content")
             generate_color_boxes_button = gr.Button(value="Generate color content")
 
-        with gr.Accordion('Color context option', open=False):
-            prompts = []
-            strengths = []
-            color_maps = []
-            colors = [gr.Textbox(value="", visible=False) for i in range(MAX_NUM_COLORS)]
-            for n in range(MAX_NUM_COLORS):
-                with gr.Row():
-                    # color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
-                    color_maps.append(gr.Image(interactive=False, type='numpy'))
-                    with gr.Column():
-                        prompts.append(gr.Textbox(label="Prompt", interactive=True))
-                    with gr.Column():
-                        strengths.append(gr.Textbox(label="Strength", interactive=True))
+        # with gr.Accordion('Color context option', open=False):
+        #     prompts = []
+        #     strengths = []
+        #     color_maps = []
+        #     colors = [gr.Textbox(value="", visible=False) for i in range(MAX_NUM_COLORS)]
+        #     for n in range(MAX_NUM_COLORS):
+        #         with gr.Row():
+        #             # color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
+        #             color_maps.append(gr.Image(interactive=False, type='numpy'))
+        #             with gr.Column():
+        #                 prompts.append(gr.Textbox(label="Prompt", interactive=True))
+        #             with gr.Column():
+        #                 strengths.append(gr.Textbox(label="Strength", interactive=True))
 
-        extract_color_boxes_button.click(fn=extract_color_textboxes, inputs=[segmentation_input_image], outputs=[*color_maps, *prompts, *strengths, *colors])
-        generate_color_boxes_button.click(fn=collect_color_content, inputs=[*colors, *prompts, *strengths], outputs=[color_context])
+        # extract_color_boxes_button.click(fn=extract_color_textboxes, inputs=[segmentation_input_image], outputs=[*color_maps, *prompts, *strengths, *colors])
+        # generate_color_boxes_button.click(fn=collect_color_content, inputs=[*colors, *prompts, *strengths], outputs=[color_context])
         ctrls = (pww_enabled, color_context, weight_function, segmentation_input_image)
         return ctrls
 
@@ -688,10 +688,9 @@ class Script(scripts.Script):
         You can modify the processing object (p) here, inject hooks, etc.
         args contains all values returned by components from ui()
         """
-        if not dummy_mode:
-            # Parse PwW arguments
-            pww_args = args[-NUM_PWW_PARAMS:]
-            args = args[:-NUM_PWW_PARAMS]
+        # Parse PwW arguments
+        pww_args = args[-NUM_PWW_PARAMS:]
+        args = args[:-NUM_PWW_PARAMS]
 
         unet = p.sd_model.model.diffusion_model
         if self.latest_network is not None:
