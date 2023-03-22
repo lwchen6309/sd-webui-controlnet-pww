@@ -26,16 +26,13 @@ from torchvision.transforms import Resize, InterpolationMode, CenterCrop, Compos
 
 dummy_mode = True
 
-if not dummy_mode:
-    from scripts.pww_utils import encode_text_color_inputs, hijack_CrossAttn
-    import math
-    import ast
+from scripts.pww_utils import encode_text_color_inputs, hijack_CrossAttn
+import math
+import ast
 
-    MAX_NUM_COLORS = 8
-    NUM_PWW_PARAMS = 4
-    from scripts.hook_pww import ControlParams, UnetHook
-else:
-    from scripts.hook import ControlParams, UnetHook
+MAX_NUM_COLORS = 8
+NUM_PWW_PARAMS = 4
+from scripts.hook_pww import ControlParams, UnetHook
 
 
 gradio_compat = True
