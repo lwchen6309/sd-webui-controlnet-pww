@@ -38,6 +38,14 @@ Similar to the ui of PwW, one can prepare the color content by first clicking "E
 In this extension, the regional-based seeding is not enables, thus the random seed for each object will not be retrieved (just leave it as -1).
 More importantly, please DO NOT use "," in object as it would raise error for current implementation. Besides, please leave object as "" if no object is assigned for the region.
 
+## Parameters of ControlNet + PwW
+
+- weight function scale: 0.1~0.4
+- eta: 0.5~1.0
+- prompt strength (in color content): 0.3~2.0
+
+Typically, eta is 0.5 for txt-img and 1.0 for inpainting
+
 ## Benchmark of ControlNet + PwW
 
 The following figure shows the comparison between the ControlNet results and the ControlNet+PwW results for the boat examples. 
