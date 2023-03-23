@@ -9,7 +9,6 @@ import modules.scripts as scripts
 from scripts.processor import *
 from scripts.adapter import PlugableAdapter
 # from scripts.hook import ControlParams, UnetHook
-from scripts.hook_pww import ControlParams, UnetHook
 from scripts import external_code
 from modules.processing import StableDiffusionProcessingImg2Img
 from PIL import Image
@@ -100,23 +99,25 @@ class Script(Script_cn):
             colors = [gr.Textbox(value="", visible=False) for i in range(MAX_NUM_COLORS)]
             for n in range(MAX_NUM_COLORS):
                 with gr.Row():
-                    color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
+                    # color_maps.append(gr.Image(image=create_canvas(15,3), interactive=False, type='numpy'))
+                    color_maps.append(gr.Image(interactive=False, type='numpy'))
                     with gr.Column():
                         prompts.append(gr.Textbox(label="Prompt", interactive=True))
                     with gr.Column():
-                        strengths.append(gr.Textbox(label="Strength", interactive=True))
+                        strengths.append(gr.Textbox(label="Prompt Strength", interactive=True))
 
         extract_color_boxes_button.click(fn=extract_color_textboxes, inputs=[segmentation_input_image], outputs=[*color_maps, *prompts, *strengths, *colors])
         generate_color_boxes_button.click(fn=collect_color_content, inputs=[*colors, *prompts, *strengths], outputs=[color_context])
         ctrls = (pww_enabled, color_context, weight_function, segmentation_input_image)
         return ctrls
-    
+
     def ui(self, is_img2img):
         """this function should create gradio UI elements. See https://gradio.app/docs/#components
         The return value should be an array of all components that are used in processing.
         Values of those returned components will be passed to run() and process() functions.
         """
         self.infotext_fields = []
+        self.paste_field_names = []
         controls = ()
         max_models = shared.opts.data.get("control_net_max_models_num", 1)
         with gr.Group():
@@ -130,7 +131,12 @@ class Script(Script_cn):
                     with gr.Column():
                         controls += (self.uigroup(f"ControlNet", is_img2img),)
             with gr.Accordion('PaintWithWord', open=False):
-                controls += self.pww_uigroup(is_img2img)            
+                controls += self.pww_uigroup(is_img2img)
+        
+        if shared.opts.data.get("control_net_sync_field_args", False):
+            for _, field_name in self.infotext_fields:
+                self.paste_field_names.append(field_name)
+
         return controls
 
     def process(self, p, *args):
@@ -286,7 +292,7 @@ class Script(Script_cn):
         self.latest_network.hook(unet)
         self.latest_network.notify(forward_params, p.sampler_name in ["DDIM", "PLMS", "UniPC"])
         self.detected_map = detected_maps
-       
+
         # Retreive PwW arguments
         pww_enabled, color_context, weight_function_scale, color_map_image = pww_args
         if pww_enabled:
@@ -300,4 +306,4 @@ class Script(Script_cn):
             hijack_CrossAttn(p)
 
         if len(enabled_units) > 0 and shared.opts.data.get("control_net_skip_img2img_processing") and hasattr(p, "init_images"):
-            swap_img2img_pipeline(p)
+            swap_img2img_pipeline(p)            
