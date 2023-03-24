@@ -54,7 +54,6 @@ class Script(Script_cn):
             default_prompt = ["obj" for _ in range(len(colors))] + ["" for _ in range(len(colors), MAX_NUM_COLORS)]
             default_strength = ["0.5" for _ in range(len(colors))] + ["" for _ in range(len(colors), MAX_NUM_COLORS)]
             colors.extend([None] * num_missing_blocks)
-
             return (*color_blocks, *default_prompt, *default_strength, *colors)
 
         def unique_colors(image, threshold=0.01):
@@ -73,7 +72,7 @@ class Script(Script_cn):
             content_collection = []
             for color, prompt, strength in zip(colors, prompts, strengths):
                 if color is not None:
-                    input_str = '%s:"%s,%s,-1"'%(color, prompt, strength)
+                    input_str = '%s:"%s@%s@-1"'%(color, prompt, strength)
                     content_collection.append(input_str)
             if len(content_collection) > 0:
                 return "{%s}"%','.join(content_collection)
@@ -92,7 +91,7 @@ class Script(Script_cn):
             extract_color_boxes_button = gr.Button(value="Extract color content")
             generate_color_boxes_button = gr.Button(value="Generate color content")
 
-        with gr.Accordion('Color context option', open=False):
+        with gr.Accordion('Color context option', open=False) as cc_option:
             prompts = []
             strengths = []
             color_maps = []
@@ -105,7 +104,7 @@ class Script(Script_cn):
                         prompts.append(gr.Textbox(label="Prompt", interactive=True))
                     with gr.Column():
                         strengths.append(gr.Textbox(label="Prompt Strength", interactive=True))
-
+        
         extract_color_boxes_button.click(fn=extract_color_textboxes, inputs=[segmentation_input_image], outputs=[*color_maps, *prompts, *strengths, *colors])
         generate_color_boxes_button.click(fn=collect_color_content, inputs=[*colors, *prompts, *strengths], outputs=[color_context])
         ctrls = (pww_enabled, color_context, weight_function, segmentation_input_image)

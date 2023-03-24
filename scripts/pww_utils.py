@@ -43,8 +43,7 @@ def _image_context_seperator(
         # img = img.resize((w, h), resample=Image.LANCZOS)
 
         for color, v in color_context.items():
-            f = v.split(",")[-1]
-            v = ",".join(v.split(",")[:-1])
+            v, f = v.split("@")
             f = float(f)
             v_input = _tokenizer(
                 v,
@@ -109,7 +108,7 @@ def _extract_seed_and_sigma_from_context(color_context, ignore_seed = -1):
     extra_seeds = {}
     extra_sigmas = {}
     for i, (k, _context) in enumerate(color_context.items()):
-        _context_split = _context.split(',')
+        _context_split = _context.split('@')
         if len(_context_split) > 2:
             try:
                 seed = int(_context_split[-2])
@@ -121,7 +120,7 @@ def _extract_seed_and_sigma_from_context(color_context, ignore_seed = -1):
                 _context_split = _context_split[:-1]
             if seed != ignore_seed:
                 extra_seeds[i] = seed
-        color_context[k] = ','.join(_context_split)
+        color_context[k] = '@'.join(_context_split)
     return color_context, extra_seeds, extra_sigmas
 
 
