@@ -33,7 +33,7 @@ where the 1st one is the panel of ControlNet extension from Mikubill; the 2nd on
 
 Similar to the ui of PwW, one can prepare the color content by first clicking "Extract color content" then "Generate olor content"
 
-![screencapture-127-0-0-1-7860-2023-03-16-15_43_25](https://user-images.githubusercontent.com/42672685/225548893-b1610bfa-2777-47b8-afdd-e2aa7fadae4a.png)
+![screencapture-d1c1cb5d-adb4-41ca-gradio-live-2023-03-24-11_16_18](https://user-images.githubusercontent.com/42672685/227416145-1b2549a6-602e-42fa-98d2-63dd5a33fc89.png)
 
 In this extension, the regional-based seeding is not enables, thus the random seed for each object will not be retrieved (just leave it as -1).
 More importantly, please DO NOT use "@" in object as it the separator of color content. Besides, please leave object as "" if no object is assigned for the region.
