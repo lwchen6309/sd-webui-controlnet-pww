@@ -35,9 +35,11 @@ Similar to the ui of PwW, one can prepare the color content by first clicking "E
 
 ![screencapture-127-0-0-1-7860-2023-03-16-15_43_25](https://user-images.githubusercontent.com/42672685/225548893-b1610bfa-2777-47b8-afdd-e2aa7fadae4a.png)
 
-### Update 2022/3/24
 In this extension, the regional-based seeding is not enables, thus the random seed for each object will not be retrieved (just leave it as -1).
 More importantly, please DO NOT use "@" in object as it the separator of color content. Besides, please leave object as "" if no object is assigned for the region.
+
+### Update 2022/3/24
+The separator of color content was changed from "," to "@".
 
 
 ## Parameters of ControlNet + PwW
