@@ -21,7 +21,7 @@ if it is successfully installed.
 ### (2) Setup pretrained model of ControlNet
 Please follow the instruction of [controlnet extension](https://github.com/Mikubill/sd-webui-controlnet) to get the pretrained models. 
 
-#### IMPORTANT: This extension is currently NOT compatible with [ControlNet extension](https://github.com/Mikubill/sd-webui-controlnet) as reported at [this issue](https://github.com/cloneofsimo/paint-with-words-sd/issues/38). Hence, please disable the ControlNet extension before you install ControlNet+PwW. This repo will sync the latest ControlNet extension and should therefore includes its original function.
+#### IMPORTANT: This extension is currently NOT compatible with [ControlNet extension](https://github.com/Mikubill/sd-webui-controlnet) as reported at [this issue](https://github.com/cloneofsimo/paint-with-words-sd/issues/38). Hence, please disable the ControlNet extension before you install ControlNet+PwW.
 
 In case you need to use both repo at once, comment line 845 https://github.com/lwchen6309/sd-webui-controlnet-pww/blob/e195de34acdb371959185ce77ca3086179c9c295/scripts/controlnet.py#L845
 to make ControlNet+PwW compatible with the ControlNet extension while make ui a bit complicated. It will making ui contain 3 ControlNet panel as follows
